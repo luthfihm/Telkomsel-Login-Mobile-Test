@@ -20,6 +20,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    Parse.initialize("WXoxPTfBD9lyGVEePVcBhk5IEM3SReMVsw8R7891", "iiG7tgpBmrP02lriDcruTQEj8gnKWHZVehWMQG3f");
   });
 })
 
@@ -31,55 +33,28 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: '/tab',
-    abstract: true,
-    templateUrl: 'templates/tabs.html'
+  .state('login', {
+      url: '/login',
+      templateUrl: 'templates/login.html'
   })
 
-  // Each tab has its own nav history stack:
-
-  .state('tab.dash', {
-    url: '/dash',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
-      }
-    }
+  .state('login-with-telkomsel', {
+      url: '/login-with-telkomsel',
+      templateUrl: 'templates/login-with-telkomsel.html',
+      controller: 'LoginWithTelkomselCtrl'
   })
-
-  .state('tab.chats', {
-      url: '/chats',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
-        }
-      }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
-      }
-    }
+  .state('formToken', {
+      url: '/formToken',
+      templateUrl: 'templates/form-token.html',
+      controller: 'TokenCtrl'
+  })
+  .state('register', {
+      url: '/register',
+      templateUrl: 'templates/form-register.html',
+      controller: 'RegisterCtrl'
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/login');
 
 });

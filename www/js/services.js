@@ -47,4 +47,39 @@ angular.module('starter.services', [])
       return null;
     }
   };
-});
+})
+.factory('TelkomselLoginAPI', ['$http', function ($http) {
+  var hostAPI = 'http://localhost:8080/TelkomselLoginAPI';
+  var phoneNumber = '';
+  var tokenAPI = '';
+  return {
+    getUrl: function(path) {
+      return hostAPI+path;
+    },
+    sendPhoneNumber: function(phoneNumber) {
+      var data = {
+        phoneNumber : phoneNumber
+      };
+      return $http.post(this.getUrl('/login'),data);
+    },
+    setPhoneNumber: function(_phoneNumber) {
+      phoneNumber = _phoneNumber;
+    },
+    getPhoneNumber: function() {
+      return phoneNumber;
+    },
+    validateLoginToken: function(token) {
+      var data = {
+        phoneNumber: phoneNumber,
+        token: token
+      };
+      return $http.post(this.getUrl('/validateLoginToken'),JSON.stringify(data));
+    },
+    setTokenAPI: function(token) {
+      tokenAPI = token;
+    },
+    getTokenAPI: function() {
+      return tokenAPI;
+    }
+  };
+}]);

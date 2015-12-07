@@ -1,28 +1,33 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
-
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+.controller('LoginWithTelkomselCtrl', function($scope,$state,TelkomselLoginAPI) {
+  $scope.data = {};
+  $scope.send =  function() {
+    TelkomselLoginAPI.sendPhoneNumber($scope.data.phoneNumber)
+      .success(function (response) {
+        TelkomselLoginAPI.setPhoneNumber($scope.data.phoneNumber);
+        $state.go('formToken');
+      })
+      .error(function (error) {
+        console.log(error);
+      });
+  }
 })
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+.controller('TokenCtrl', function ($scope, $state, TelkomselLoginAPI) {
+  console.log(TelkomselLoginAPI.getPhoneNumber());
+  $scope.data = {};
+  $scope.send = function () {
+    TelkomselLoginAPI.validateLoginToken($scope.data.token)
+      .success(function (response) {
+        TelkomselLoginAPI.setTokenAPI(response);
+        $state.go('register');
+      })
+      .error(function (error) {
+        console.log(error);
+      });
+  }
 })
-
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('RegisterCtrl', function ($scope, $state, TelkomselLoginAPI) {
+  $scope.data = {};
+  $scope.data.phoneNumber = TelkomselLoginAPI.getPhoneNumber();
 });
